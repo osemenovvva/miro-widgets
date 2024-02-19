@@ -1,27 +1,15 @@
 package com.olgasemenova.mirowidgets.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class WidgetDto {
-    @NotNull
     private UUID id;
-    @NotNull
     private Integer x;
-    @NotNull
     private Integer y;
-    @NotNull
     private Integer zIndex;
-    @NotNull
-    @Positive
     private Integer width;
-    @NotNull
-    @Positive
     private Integer height;
-    @NotNull
     private LocalDateTime lastModificationDate;
 
     public WidgetDto(Integer x,
@@ -29,11 +17,11 @@ public class WidgetDto {
                   Integer zIndex,
                   Integer width,
                   Integer height) {
-        this.x = x != null ? x : 0;
-        this.y = y != null ? y : 0;
-        this.zIndex = zIndex != null ? zIndex : this.getMaxZValue() + 1;
-        this.width =  width != null ? width : 1;
-        this.height =  height != null ? height : 1;
+        this.x = x;
+        this.y = y;
+        this.zIndex = zIndex;
+        this.width =  width;
+        this.height =  height;
         this.lastModificationDate = LocalDateTime.now();
     }
 

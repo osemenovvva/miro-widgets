@@ -1,26 +1,50 @@
 package com.olgasemenova.mirowidgets.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
+import org.hibernate.annotations.UuidGenerator;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
+@Entity
+@Table(name = "widgets")
 public class Widget {
-    @NotNull
+    @Id
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(name = "widget_id",
+            nullable = false)
     private UUID id;
-    @NotNull
+
+    @Column(name = "coordinate_x",
+            nullable = false,
+            columnDefinition="INT NOT NULL DEFAULT 0")
     private Integer x;
-    @NotNull
+
+    @Column(name = "coordinate_y",
+            nullable = false,
+            columnDefinition="INT NOT NULL DEFAULT 0")
     private Integer y;
-    @NotNull
+
+    @Column(name = "z_index",
+            nullable = false,
+            unique = true)
     private Integer zIndex;
-    @NotNull
+
+    @Column(name = "width",
+            nullable = false,
+            columnDefinition="INT NOT NULL DEFAULT 1")
     @Positive
     private Integer width;
-    @NotNull
+
+    @Column(name = "height",
+            nullable = false,
+            columnDefinition="INT NOT NULL DEFAULT 1")
     @Positive
     private Integer height;
-    @NotNull
+
+    @Column(name = "last_modification_date",
+            nullable = false)
     private LocalDateTime lastModificationDate;
 
     public Widget(Integer x,
@@ -28,13 +52,11 @@ public class Widget {
                   Integer zIndex,
                   Integer width,
                   Integer height) {
-        this.x = x != null ? x : 0;
-        this.y = y != null ? y : 0;
-        this.zIndex = zIndex != null ? zIndex : this.getMaxZValue() + 1;
-        //this.validatePositiveValue(width, "Width");
-        this.width =  width != null ? width : 1;
-        //this.validatePositiveValue(height, "Height");
-        this.height =  height != null ? height : 1;
+        this.x = x;
+        this.y = y;
+        this.zIndex = zIndex;
+        this.width =  width;
+        this.height =  height;
         this.lastModificationDate = LocalDateTime.now();
     }
 
@@ -93,15 +115,6 @@ public class Widget {
     public void setLastModificationDate(LocalDateTime lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
     }
-
-    //Как лучше валидировать?
-    /*
-    private static void validatePositiveValue(Integer value, String fieldName) {
-        if (value != null && value <= 0) {
-            throw new IllegalArgumentException(fieldName + " must be a positive value.");
-        }
-    }
-     */
 
     private static int getMaxZValue () {
         //Нужно ли выносить в сервис?

@@ -1,9 +1,10 @@
 package com.olgasemenova.mirowidgets.repository;
 
-import org.springframework.stereotype.Repository;
+import com.olgasemenova.mirowidgets.model.Widget;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class WidgetRepository {
-    //Получение списка виджетов, отсортированных по zIndex
-    //Получение виджета по Id
+import java.util.UUID;
+
+public interface WidgetRepository extends JpaRepository<Widget, UUID> {
+
 }
