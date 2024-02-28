@@ -16,12 +16,12 @@ public class Widget {
             nullable = false)
     private UUID id;
 
-    @Column(name = "coordinate_x",
+    @Column(name = "x",
             nullable = false,
             columnDefinition="INT NOT NULL DEFAULT 0")
     private Integer x;
 
-    @Column(name = "coordinate_y",
+    @Column(name = "y",
             nullable = false,
             columnDefinition="INT NOT NULL DEFAULT 0")
     private Integer y;
@@ -29,6 +29,7 @@ public class Widget {
     @Column(name = "z_index",
             nullable = false,
             unique = true)
+    @Positive
     private Integer zIndex;
 
     @Column(name = "width",
@@ -47,11 +48,15 @@ public class Widget {
             nullable = false)
     private LocalDateTime lastModificationDate;
 
+    public Widget() {
+    }
+
     public Widget(Integer x,
                   Integer y,
                   Integer zIndex,
                   Integer width,
                   Integer height) {
+        this.id = UUID.randomUUID();
         this.x = x;
         this.y = y;
         this.zIndex = zIndex;

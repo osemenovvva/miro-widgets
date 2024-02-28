@@ -1,10 +1,9 @@
 package com.olgasemenova.mirowidgets.repository;
-import com.olgasemenova.mirowidgets.model.Widget;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
+@Profile("postgres")
 public interface PostgresRepository extends WidgetRepository {
 
     //Получение списка виджетов, отсортированных по zIndex
