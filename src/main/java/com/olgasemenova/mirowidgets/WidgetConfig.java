@@ -27,7 +27,7 @@ public class WidgetConfig {
                     40
             );
 
-            widgetRepository.saveAll(List.of(widget1, widget2));
+            widgetRepository.saveAllWidgets(List.of(widget1, widget2));
         };
     }
 }

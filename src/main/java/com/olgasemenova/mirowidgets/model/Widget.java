@@ -12,40 +12,27 @@ import java.util.UUID;
 public class Widget {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(name = "widget_id",
-            nullable = false)
+    @Column(name = "widget_id")
     private UUID id;
 
-    @Column(name = "x",
-            nullable = false,
-            columnDefinition="INT NOT NULL DEFAULT 0")
+    @Column(name = "x")
     private Integer x;
 
-    @Column(name = "y",
-            nullable = false,
-            columnDefinition="INT NOT NULL DEFAULT 0")
+    @Column(name = "y")
     private Integer y;
 
-    @Column(name = "z_index",
-            nullable = false,
-            unique = true)
-    @Positive
+    @Column(name = "z_index")
     private Integer zIndex;
 
-    @Column(name = "width",
-            nullable = false,
-            columnDefinition="INT NOT NULL DEFAULT 1")
+    @Column(name = "width")
     @Positive
     private Integer width;
 
-    @Column(name = "height",
-            nullable = false,
-            columnDefinition="INT NOT NULL DEFAULT 1")
+    @Column(name = "height")
     @Positive
     private Integer height;
 
-    @Column(name = "last_modification_date",
-            nullable = false)
+    @Column(name = "last_modification_date")
     private LocalDateTime lastModificationDate;
 
     public Widget() {
@@ -57,6 +44,21 @@ public class Widget {
                   Integer width,
                   Integer height) {
         this.id = UUID.randomUUID();
+        this.x = x;
+        this.y = y;
+        this.zIndex = zIndex;
+        this.width =  width;
+        this.height =  height;
+        this.lastModificationDate = LocalDateTime.now();
+    }
+
+    public Widget(UUID id,
+                  Integer x,
+                  Integer y,
+                  Integer zIndex,
+                  Integer width,
+                  Integer height) {
+        this.id = id;
         this.x = x;
         this.y = y;
         this.zIndex = zIndex;
@@ -119,11 +121,6 @@ public class Widget {
 
     public void setLastModificationDate(LocalDateTime lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
-    }
-
-    private static int getMaxZValue () {
-        //Нужно ли выносить в сервис?
-        return 0;
     }
 
     @Override

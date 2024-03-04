@@ -12,8 +12,6 @@ public class WidgetDto {
     private Integer x;
     @NotNull
     private Integer y;
-    @NotNull
-    @Positive
     private Integer zIndex;
     @NotNull
     @Positive
@@ -24,20 +22,25 @@ public class WidgetDto {
     @NotNull
     private LocalDateTime lastModificationDate;
 
-    public WidgetDto(Integer x,
-                  Integer y,
-                  Integer zIndex,
-                  Integer width,
-                  Integer height) {
-        this.id = UUID.randomUUID();
+    public WidgetDto() {
+
+    }
+
+    public WidgetDto(UUID id,
+                     Integer x,
+                     Integer y,
+                     Integer zIndex,
+                     Integer width,
+                     Integer height,
+                     LocalDateTime lastModificationDate) {
+        this.id = id;
         this.x = x;
         this.y = y;
         this.zIndex = zIndex;
         this.width =  width;
         this.height =  height;
-        this.lastModificationDate = LocalDateTime.now();
+        this.lastModificationDate = lastModificationDate;
     }
-
     public UUID getId() {
         return id;
     }
@@ -92,10 +95,6 @@ public class WidgetDto {
 
     public void setLastModificationDate(LocalDateTime lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
-    }
-
-    private static int getMaxZValue () {
-        return 0;
     }
 
     @Override

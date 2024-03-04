@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/v1/widget")
+@RequestMapping(path = "/api/v1/widget")
 public class WidgetController {
 
     private final WidgetService widgetService;
@@ -18,9 +18,16 @@ public class WidgetController {
     public WidgetController(WidgetService widgetService) {
         this.widgetService = widgetService;
     }
+
     @GetMapping
     public List<WidgetDto> getWidgets() {
         return widgetService.getWidgets();
+    }
+
+    @GetMapping(path = "{widgetId}")
+    public WidgetDto getWidgetById(
+            @PathVariable("widgetId") UUID widgetId) {
+        return widgetService.getWidgetById(widgetId);
     }
 
     @PostMapping
@@ -29,7 +36,7 @@ public class WidgetController {
     }
 
     @DeleteMapping(path = "{widgetId}")
-    public void deleteAttendant(
+    public void deleteWidget(
             @PathVariable("widgetId") UUID widgetId) {
         widgetService.deleteWidget(widgetId);
     }
