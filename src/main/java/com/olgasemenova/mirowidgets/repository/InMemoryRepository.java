@@ -37,6 +37,7 @@ public class InMemoryRepository implements WidgetRepository {
     public Integer getMaxZValue() {
         return storage.getWidgetTreeSet().last().getzIndex() + 1;
     }
+
     public Optional<Widget> findByZIndex(Integer zIndex) {
         return storage
                 .getWidgetTreeSet()
@@ -50,8 +51,6 @@ public class InMemoryRepository implements WidgetRepository {
                 .stream()
                 .anyMatch(o -> Objects.equals(o.getzIndex(), zIndex));
     }
-
-
 
     public void saveAllWidgets(List<Widget> widgets) {
         for(Widget widget : widgets) {
@@ -108,6 +107,4 @@ public class InMemoryRepository implements WidgetRepository {
             }
         }
     }
-
-
 }
