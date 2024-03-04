@@ -1,9 +1,17 @@
 package com.olgasemenova.mirowidgets.repository;
 
-import org.springframework.stereotype.Repository;
+import com.olgasemenova.mirowidgets.model.Widget;
 
-@Repository
-public class WidgetRepository {
-    //Получение списка виджетов, отсортированных по zIndex
-    //Получение виджета по Id
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface WidgetRepository {
+    public Optional<Widget> findById(UUID uuid);
+    public void deleteById(UUID uuid);
+    public boolean existsById(UUID widgetId);
+    public List<Widget> findAllWidgets();
+    public void saveAllWidgets(List<Widget> widgets);
+    public void saveWidget(Widget widget);
+    public void updateWidget(Widget widget);
 }
