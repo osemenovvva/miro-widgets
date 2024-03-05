@@ -38,6 +38,7 @@ public class InMemoryRepository implements WidgetRepository {
     public Integer getMaxZValue() {
         return storage.getWidgetSet().last().getzIndex() + 1;
     }
+
     public Optional<Widget> findByZIndex(Integer zIndex) {
         return storage
                 .getWidgetSet()
