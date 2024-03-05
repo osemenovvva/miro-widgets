@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 
 @Repository
 @Profile("in-memory")
@@ -22,7 +23,7 @@ public class InMemoryRepository implements WidgetRepository {
         Widget widgetToDelete = this.findById(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Widget doesn't exist"));
         storage.getUuidWidgetMap().remove(uuid);
-        storage.getWidgetTreeSet().remove(widgetToDelete);
+        storage.getWidgetSet().remove(widgetToDelete);
     }
 
     @Override
@@ -31,27 +32,26 @@ public class InMemoryRepository implements WidgetRepository {
     }
 
     public List<Widget> findAllWidgets() {
-        return storage.getWidgetTreeSet().stream().toList();
+        return storage.getWidgetSet().stream().toList();
     }
 
     public Integer getMaxZValue() {
-        return storage.getWidgetTreeSet().last().getzIndex() + 1;
+        return storage.getWidgetSet().last().getzIndex() + 1;
     }
     public Optional<Widget> findByZIndex(Integer zIndex) {
         return storage
-                .getWidgetTreeSet()
+                .getWidgetSet()
                 .stream()
                 .filter(x -> Objects.equals(x.getzIndex(), zIndex))
                 .findAny();
     }
+
     public boolean isZIndexExists(Integer zIndex) {
         return storage
-                .getWidgetTreeSet()
+                .getWidgetSet()
                 .stream()
                 .anyMatch(o -> Objects.equals(o.getzIndex(), zIndex));
     }
-
-
 
     public void saveAllWidgets(List<Widget> widgets) {
         for(Widget widget : widgets) {
@@ -63,12 +63,12 @@ public class InMemoryRepository implements WidgetRepository {
         this.checkAndUpdateZIndex(widget);
 
         storage.getUuidWidgetMap().put(widget.getId(), widget);
-        storage.getWidgetTreeSet().add(widget);
+        storage.getWidgetSet().add(widget);
     }
 
     public void updateWidget(Widget widget) {
-        Map<UUID, Widget> widgetsMap = storage.getUuidWidgetMap();
-        TreeSet<Widget> widgetsTreeSet = storage.getWidgetTreeSet();
+        ConcurrentMap<UUID, Widget> widgetsMap = storage.getUuidWidgetMap();
+        SortedSet<Widget> widgetsSet = storage.getWidgetSet();
 
         this.checkAndUpdateZIndex(widget);
 
@@ -76,8 +76,8 @@ public class InMemoryRepository implements WidgetRepository {
 
         widgetsMap.replace(widget.getId(), oldWidget, widget);
 
-        widgetsTreeSet.remove(oldWidget);
-        widgetsTreeSet.add(widget);
+        widgetsSet.remove(oldWidget);
+        widgetsSet.add(widget);
     }
 
     private void checkAndUpdateZIndex(Widget widget) {
@@ -89,7 +89,7 @@ public class InMemoryRepository implements WidgetRepository {
 
         if (entityWithSameZIndex.isPresent()) {
             SortedSet<Widget> widgetsToEdit = storage
-                    .getWidgetTreeSet()
+                    .getWidgetSet()
                     .tailSet(entityWithSameZIndex.get());
 
             for(Widget w: widgetsToEdit) {
@@ -108,6 +108,4 @@ public class InMemoryRepository implements WidgetRepository {
             }
         }
     }
-
-
 }

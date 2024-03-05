@@ -3,28 +3,33 @@ package com.olgasemenova.mirowidgets.repository;
 import com.olgasemenova.mirowidgets.model.Widget;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class InMemoryStorage {
 
-    private Map<UUID, Widget> uuidWidgetMap = new HashMap<>();
-    private TreeSet<Widget> widgetTreeSet = new TreeSet<>(Comparator.comparingInt(o -> o.getzIndex()));
+    private ConcurrentMap<UUID, Widget> uuidWidgetMap = new ConcurrentHashMap<>();
 
+    private SortedSet<Widget> widgetSet = Collections.synchronizedSortedSet(
+            new TreeSet(Comparator.comparingInt(Widget::getzIndex)
+            ));
+    
     public InMemoryStorage() { }
 
-    public Map<UUID, Widget> getUuidWidgetMap() {
+    public ConcurrentMap<UUID, Widget> getUuidWidgetMap() {
         return uuidWidgetMap;
     }
 
-    public void setUuidWidgetMap(Map<UUID, Widget> uuidWidgetMap) {
+    public void setUuidWidgetMap(ConcurrentMap<UUID, Widget> uuidWidgetMap) {
         this.uuidWidgetMap = uuidWidgetMap;
     }
 
-    public TreeSet<Widget> getWidgetTreeSet() {
-        return widgetTreeSet;
+    public SortedSet<Widget> getWidgetSet() {
+        return widgetSet;
     }
 
-    public void setWidgetTreeSet(TreeSet<Widget> widgetTreeSet) {
-        this.widgetTreeSet = widgetTreeSet;
+    public void setWidgetSet(TreeSet<Widget> widgetSet) {
+        this.widgetSet = widgetSet;
     }
 
 }

@@ -44,7 +44,6 @@ public class WidgetMapper {
         );
     }
 
-
     public List<WidgetDto> toDtoList(List<Widget> widgetList) {
         List<WidgetDto> widgetDtoList = new ArrayList<>();
         for (Widget widget : widgetList) {
