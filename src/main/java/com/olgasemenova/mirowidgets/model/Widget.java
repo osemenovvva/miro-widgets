@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -42,14 +43,15 @@ public class Widget {
                   Integer y,
                   Integer zIndex,
                   Integer width,
-                  Integer height) {
+                  Integer height,
+                  Clock clock) {
         this.id = UUID.randomUUID();
         this.x = x;
         this.y = y;
         this.zIndex = zIndex;
         this.width =  width;
         this.height =  height;
-        this.lastModificationDate = LocalDateTime.now();
+        this.lastModificationDate = LocalDateTime.now(clock);
     }
 
     public Widget(UUID id,
@@ -57,14 +59,15 @@ public class Widget {
                   Integer y,
                   Integer zIndex,
                   Integer width,
-                  Integer height) {
+                  Integer height,
+                  Clock clock) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.zIndex = zIndex;
         this.width =  width;
         this.height =  height;
-        this.lastModificationDate = LocalDateTime.now();
+        this.lastModificationDate = LocalDateTime.now(clock);
     }
 
     public UUID getId() {

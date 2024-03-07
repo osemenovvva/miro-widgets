@@ -82,6 +82,9 @@ public class InMemoryRepository implements WidgetRepository {
     }
 
     private void checkAndUpdateZIndex(Widget widget) {
+        ConcurrentMap<UUID, Widget> widgetsMap = storage.getUuidWidgetMap();
+        SortedSet<Widget> widgetsSet = storage.getWidgetSet();
+
         if (widget.getzIndex() == null) {
             widget.setzIndex(this.getMaxZValue());
         }
@@ -89,8 +92,7 @@ public class InMemoryRepository implements WidgetRepository {
         Optional<Widget> entityWithSameZIndex = this.findByZIndex(widget.getzIndex());
 
         if (entityWithSameZIndex.isPresent()) {
-            SortedSet<Widget> widgetsToEdit = storage
-                    .getWidgetSet()
+            SortedSet<Widget> widgetsToEdit = widgetsSet
                     .tailSet(entityWithSameZIndex.get());
 
             for(Widget w: widgetsToEdit) {
@@ -101,10 +103,9 @@ public class InMemoryRepository implements WidgetRepository {
                     break;
                 }
 
-                widget.setzIndex(newIndex);
-                storage
-                    .getUuidWidgetMap()
-                    .get(widget.getId())
+                w.setzIndex(newIndex);
+                widgetsMap
+                    .get(w.getId())
                     .setzIndex(newIndex);
             }
         }

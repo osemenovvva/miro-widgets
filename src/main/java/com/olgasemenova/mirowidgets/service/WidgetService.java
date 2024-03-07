@@ -32,7 +32,7 @@ public class WidgetService {
 
     public WidgetDto getWidgetById(UUID widgetId) {
         return widgetMapper.toDto(widgetRepository.findById(widgetId).orElseThrow(
-                () -> new IllegalStateException("Widget with id " + widgetId + "does not exists")
+                () -> new IllegalStateException("Widget with id " + widgetId + " does not exists")
         ));
     }
 
@@ -45,7 +45,7 @@ public class WidgetService {
     public void deleteWidget(UUID widgetId) {
         if (!widgetRepository.existsById(widgetId)) {
             throw new IllegalStateException(
-                    "Widget with id " + widgetId + "does not exists");
+                    "Widget with id " + widgetId + " does not exists");
         }
         widgetRepository.deleteById(widgetId);
     }

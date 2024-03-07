@@ -2,22 +2,31 @@ package com.olgasemenova.mirowidgets.util;
 
 import com.olgasemenova.mirowidgets.model.Widget;
 import com.olgasemenova.mirowidgets.model.WidgetDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Component
 public class WidgetMapper {
+
+    @Autowired
+    private final Clock clock;
+
+    public WidgetMapper(Clock clock) {
+        this.clock = clock;
+    }
+
     public Widget toEntitySave(WidgetDto dto) {
         return new Widget(
                 dto.getX(),
                 dto.getY(),
                 dto.getzIndex(),
                 dto.getWidth(),
-                dto.getHeight()
+                dto.getHeight(),
+                clock
         );
     }
 
@@ -28,7 +37,8 @@ public class WidgetMapper {
                 dto.getY(),
                 dto.getzIndex(),
                 dto.getWidth(),
-                dto.getHeight()
+                dto.getHeight(),
+                clock
         );
     }
 

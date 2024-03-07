@@ -1,7 +1,6 @@
 package com.olgasemenova.mirowidgets.repository;
 
 import com.olgasemenova.mirowidgets.model.Widget;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.SortedSet;
 import java.util.UUID;
 
 @Repository
@@ -31,6 +29,9 @@ public interface PostgresRepository extends WidgetRepository, JpaRepository<Widg
 
     @Query(value = "SELECT * FROM Widgets w WHERE w.widget_id = ?1", nativeQuery = true)
     Optional<Widget> findById(UUID uuid);
+
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM Widgets w WHERE w.widget_id = ?1 )", nativeQuery = true)
+    boolean existsById(UUID widgetId);
 
     @Modifying
     @Query(value = "DELETE FROM Widgets w WHERE w.widget_id = ?1", nativeQuery = true)
